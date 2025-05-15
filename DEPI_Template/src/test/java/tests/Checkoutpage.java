@@ -28,7 +28,7 @@ public class Checkoutpage extends TestBase {
         Thread.sleep(1000);
         driver.findElement(By.id("checkout")).click();
         Thread.sleep(1000);
-        driver.findElement(By.id("first-name")).sendKeys("TestFirstt");
+        driver.findElement(By.id("first-name")).sendKeys("TestFirst");
         Thread.sleep(500);
         WebElement lastNameField = driver.findElement(By.id("last-name"));
         lastNameField.sendKeys("TestLast");
