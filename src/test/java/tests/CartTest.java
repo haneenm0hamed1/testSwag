@@ -33,6 +33,6 @@ public class CartTest extends TestBase {
 
         String cartPrice = cart.getCartItemPrice();
 
-        Assert.assertEquals(cartPrice, productPrice, "Price does not match between product and cart!");
+        Assert.assertEquals(cartPrice, productPrice, "Price doesn't match between product and cart!");
     }
 }
