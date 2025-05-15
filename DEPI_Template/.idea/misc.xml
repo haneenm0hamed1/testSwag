@@ -4,11 +4,7 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-<<<<<<< HEAD
         <option value="$PROJECT_DIR$/pom.xml" />
-=======
-        <option value="$PROJECT_DIR$/DEPI_Template/pom.xml" />
->>>>>>> origin/master
       </list>
     </option>
   </component>
