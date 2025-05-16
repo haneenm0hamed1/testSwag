@@ -13,10 +13,12 @@ public class LoginTest extends TestBase {
     public void setLogin() {
         login = new LoginPage(driver);
     }
+
     // Moo.TC 1
+    // standard_user
+
     @Test
     public void testLoginWithValidData() throws InterruptedException {
-        driver.get("https://www.saucedemo.com/");
         login.fillUserName("standard_user");
         login.fillPassword("secret_sauce");
         login.ClickButton();
@@ -27,10 +29,12 @@ public class LoginTest extends TestBase {
         Assert.assertTrue(isLoginSuccessful, "Login should be successful for standard_user.");
         System.out.println("testLoginWithValidData: " + (isLoginSuccessful ? "PASSED" : "FAILED"));
     }
+
     // Moo.TC 3
+    // problem_user
+
     @Test
     public void testLoginWithATechnicalBroblems() throws InterruptedException {
-        driver.get("https://www.saucedemo.com/");
         login.fillUserName("problem_user");
         login.fillPassword("secret_sauce");
         login.ClickButton();
@@ -42,10 +46,12 @@ public class LoginTest extends TestBase {
 
         Assert.assertTrue(isLoginSuccessful, "Login should fail for problem_user.");
     }
+
     // Moo.TC 4
+    // performance_glitch_user
+
     @Test
     public void testLoginWithAPreformanceGlitch() throws InterruptedException {
-        driver.get("https://www.saucedemo.com/");
         login.fillUserName("performance_glitch_user");
         login.fillPassword("secret_sauce");
         login.ClickButton();
@@ -57,25 +63,52 @@ public class LoginTest extends TestBase {
         System.out.println("testLoginWithAPreformanceGlitch: " + (isLoginSuccessful ? "PASSED" : "FAILED"));
     }
 
-    @Test
-    public void testLoginWithINValidData() throws InterruptedException {
-        login.fillUserName("standard_user");
-        login.fillPassword("secret_sauc");
-        login.ClickButton();
-        Thread.sleep(5000);
-        String Weblink = login.findCurrentURL(driver);
-        Assert.assertEquals(Weblink,"https://www.saucedemo.com/");
-    }
+    // Abdelrhman.TC 2
+    // Locked Out User
 
     @Test
-    public void testLoginWithINValidDataErrorMessage() throws InterruptedException {
-        login.fillUserName("standard_user");
-        login.fillPassword("secret_sauc");
+    public void testLoginWithValidDatabyLockedOutUser() throws InterruptedException {
+        login.fillUserName("locked_out_user");
+        login.fillPassword("secret_sauce");
         login.ClickButton();
-        Thread.sleep(5000);
-        String errorMessage = login.getErrorMessage();
-        System.out.println("Menna need to see this" + errorMessage);
-        Assert.assertEquals(errorMessage,"Epic sadface: Username and password do not match any user in this service");
+        Thread.sleep(5000L);
+        String Weblink = login.findCurrentURL(driver);
+        Assert.assertEquals(Weblink, "https://www.saucedemo.com/inventory.html");
+        boolean isLoginSuccessful = login.isLoginSuccessful();
+        Assert.assertFalse(isLoginSuccessful, "Login should be fail for locked_out_user.");
+        System.out.println("testLoginWithValidData: " + (isLoginSuccessful ? "PASSED" : "FAILED"));
+    }
+
+    // Abdelrhman.TC 5
+    // error User
+
+    @Test
+    public void testLoginWitherroruser() throws InterruptedException {
+        login.fillUserName("error_user");
+        login.fillPassword("secret_sauce");
+        login.ClickButton();
+        Thread.sleep(5000L);
+        String Weblink = login.findCurrentURL(driver);
+        Assert.assertEquals(Weblink, "https://www.saucedemo.com/inventory.html");
+        boolean isLoginSuccessful = login.isLoginSuccessful();
+        System.out.println("testLoginWithATechnicalBroblems: " + (isLoginSuccessful ? "PASSED" : "FAILED"));
+        Assert.assertTrue(isLoginSuccessful, "Login should successful for error_user.");
+    }
+
+    // Abdelrhman.TC 6
+    //visual User
+
+    @Test
+    public void testLoginWithvisual_user() throws InterruptedException {
+        login.fillUserName("visual_user");
+        login.fillPassword("secret_sauce");
+        login.ClickButton();
+        Thread.sleep(5000L);
+        String Weblink = login.findCurrentURL(driver);
+        Assert.assertEquals(Weblink, "https://www.saucedemo.com/inventory.html");
+        boolean isLoginSuccessful = login.isLoginSuccessful();
+        Assert.assertTrue(isLoginSuccessful, "Login should be successful for visual_user.");
+        System.out.println("testLoginWithAPreformanceGlitch: " + (isLoginSuccessful ? "PASSED" : "FAILED"));
     }
 
 }
