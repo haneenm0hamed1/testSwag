@@ -19,6 +19,14 @@ public class CartPage extends PageBase {
         return driver.findElement(cartItemPrice).getText();
     }
 
+    By cartIcon = By.className("shopping_cart_link");
+
+
+    public void openCart() {
+        clickOnElement(cartIcon);
+    }
+
+
     public void clickCheckout() {
         clickOnElement(checkoutButton);
     }

@@ -49,10 +49,15 @@ public class PageBase {
         return driver.getCurrentUrl();
     }
 
-    public String getText(WebDriver driver,By locator)
-    {
-        waitForElementVisibility(locator);
+    public static String getText(WebDriver driver, By locator) {
         return driver.findElement(locator).getText();
     }
 
-}
+    public void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+}}

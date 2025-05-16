@@ -19,7 +19,9 @@ public class ProductTest extends TestBase{
     //TC_Swag_Product_004
     @Test
     public void testRemoveProductFromCart() throws InterruptedException {
-        login.login("error_user","secret_sauce");
+        login.fillUserName("error_user");
+        login.fillPassword("secret_sauce");
+        login.ClickButton();
         product.clickAddToCart();
         product.removeFromCart();
         // Add a small delay to ensure the cart updates
@@ -30,7 +32,9 @@ public class ProductTest extends TestBase{
     //TC_Swag_Product_006
     @Test
     public void testOpenProductDetailsPage() throws InterruptedException{
-        login.login("standard_user", "secret_sauce");
+        login.fillUserName("standard_user");
+        login.fillPassword("secret_sauce");
+        login.ClickButton();
         product.clickOnProductTitle();
         String Title = product.getProductDetailsTitle();
         // Add a small delay to ensure the cart updates

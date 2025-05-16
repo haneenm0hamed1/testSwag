@@ -19,7 +19,9 @@ public class CartTest extends TestBase {
         products = new HomePage(driver);
         cart = new CartPage(driver);
 
-        login.login("visual_user", "secret_sauce");
+        login.fillUserName("visual_user");
+        login.fillPassword("secret_sauce");
+        login.ClickButton();
     }
 
     /// TC_ID_Swag_Cart_02

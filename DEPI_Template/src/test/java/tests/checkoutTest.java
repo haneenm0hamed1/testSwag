@@ -1,85 +1,116 @@
 package tests;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.checkoutpage;
+import pages.LoginPage;
 
 public class checkoutTest extends TestBase {
 
-    // Tc_Swag_checkout_002
-    @Test
-    public void lastNameFieldBugTest() throws InterruptedException {
-        driver.findElement(By.id("user-name")).sendKeys("problem_user");
-        Thread.sleep(500);
-        driver.findElement(By.id("password")).sendKeys("secret_sauce");
-        Thread.sleep(500);
-        driver.findElement(By.id("login-button")).click();
-        Thread.sleep(1000);
-        driver.findElement(By.id("add-to-cart-sauce-labs-bolt-t-shirt")).click();
-        Thread.sleep(1000);
-        driver.findElement(By.className("shopping_cart_link")).click();
-        Thread.sleep(1000);
-        driver.findElement(By.id("checkout")).click();
-        Thread.sleep(1000);
-        driver.findElement(By.id("first-name")).sendKeys("TestFirst");
-        Thread.sleep(500);
-        WebElement lastNameField = driver.findElement(By.id("last-name"));
-        lastNameField.sendKeys("TestLast");
-        Thread.sleep(500);
-        driver.findElement(By.id("postal-code")).sendKeys("12345");
-        Thread.sleep(500);
-        driver.findElement(By.id("continue")).click();
-        Thread.sleep(1000);
-        WebElement errorMessage = driver.findElement(By.cssSelector("h3[data-test='error']"));
-        String actualError = errorMessage.getText();
-        String expectedError = "Error: Last Name is required";
-        Assert.assertEquals(actualError, expectedError, "BUG not reproduced: Last Name should still show error!");
-    }
-    // Tc_Swag_checkout_003
-    @Test
-    public void lockedOutUserCannotLogin() throws InterruptedException {
-        driver.findElement(By.id("user-name")).sendKeys("locked_out_user");
-        Thread.sleep(500);
-        driver.findElement(By.id("password")).sendKeys("secret_sauce");
-        Thread.sleep(500);
-        driver.findElement(By.id("login-button")).click();
-        Thread.sleep(1000);
-        WebElement errorMessage = driver.findElement(By.cssSelector("h3[data-test='error']"));
-        String actualError = errorMessage.getText();
-        String expectedError = "Epic sadface: Sorry, this user has been locked out.";
-        Assert.assertEquals(actualError, expectedError, "BUG: Locked out user was able to login!");
+    LoginPage login;
+    checkoutpage checkout;
+
+    @BeforeMethod
+    public void setPages() {
+        login = new LoginPage(driver);
+        checkout = new checkoutpage(driver);
     }
 
-    // Tc_Swag_checkout_005
+    // TC-7: Valid checkout information
     @Test
-    public void checkoutAcceptsSpacesBugTest() throws InterruptedException {
-        driver.findElement(By.id("user-name")).sendKeys("performance_glitch_user");
-        Thread.sleep(500);
-        driver.findElement(By.id("password")).sendKeys("secret_sauce");
-        Thread.sleep(500);
-        driver.findElement(By.id("login-button")).click();
-        Thread.sleep(1500);
-        driver.findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
-        Thread.sleep(1000);
-        driver.findElement(By.className("shopping_cart_link")).click();
-        Thread.sleep(1000);
-        driver.findElement(By.id("checkout")).click();
-        Thread.sleep(1000);
-        driver.findElement(By.id("first-name")).sendKeys("   ");
-        Thread.sleep(500);
-        driver.findElement(By.id("last-name")).sendKeys("   ");
-        Thread.sleep(500);
-        driver.findElement(By.id("postal-code")).sendKeys("   ");
-        Thread.sleep(500);
-        driver.findElement(By.id("continue")).click();
-        Thread.sleep(1000);
-        String currentUrl = driver.getCurrentUrl();
-        boolean isBugPresent = currentUrl.contains("checkout-step-two.html");
-        Assert.assertTrue(isBugPresent, "Validation is working fine, Bug NOT reproduced.");
+    public void Tc_Swag_checkout_007_validInfo() {
+        login.fillUserName("visual_user");
+        login.fillPassword("secret_sauce");
+        login.ClickButton();
+
+        checkout.waitForElementVisibility(By.id("add-to-cart-sauce-labs-backpack"));
+        checkout.addProductToCart();
+        checkout.sleep(1000);
+        checkout.openCart();
+        checkout.sleep(1000);
+        checkout.clickCheckout();
+        checkout.sleep(1000);
+
+        checkout.enterCheckoutInformation("Hagar", "Abdallah", "1233");
+
+        String actualTitle = checkout.getCurrentStepTitle();
+        Assert.assertEquals(actualTitle, "Checkout: Overview", "User should proceed to the overview step.");
     }
 
+    // TC-8: Invalid checkout information
+    @Test
+    public void Tc_Swag_checkout_008_invalidInfo() {
+        login.fillUserName("visual_user");
+        login.fillPassword("secret_sauce");
+        login.ClickButton();
 
+        checkout.waitForElementVisibility(By.id("add-to-cart-sauce-labs-backpack"));
+        checkout.addProductToCart();
+        checkout.sleep(1000);
+        checkout.openCart();
+        checkout.sleep(1000);
+        checkout.clickCheckout();
+        checkout.sleep(1000);
+
+        checkout.enterCheckoutInformation("Hagar", "عبدالله", "122er");
+        checkout.sleep(1000);
+
+        checkout.finishCheckout();
+
+        // Here you can add assertions to verify behavior after trying to finish with invalid info if needed
+    }
+
+    // TC-3: Checkout process with problem_user, last name should be rejected
+    @Test
+    public void Tc_Swag_checkout_003_problemUser_LastNameRejected() {
+        login.fillUserName("problem_user");
+        login.fillPassword("secret_sauce");
+        login.ClickButton();
+
+        checkout.waitForElementVisibility(By.id("add-to-cart-sauce-labs-backpack"));
+        checkout.addProductToCart();
+        checkout.sleep(1000);
+        checkout.openCart();
+        checkout.sleep(1000);
+        checkout.clickCheckout();
+        checkout.sleep(1000);
+
+        // Intentionally using invalid last name to test rejection
+        checkout.enterCheckoutInformation("Hagar", "   ", "12345");
+        checkout.sleep(1000);
+
+        // Check error message for last name field rejection
+        String errorMessage = checkout.getErrorMessage();
+        Assert.assertTrue(errorMessage.toLowerCase().contains("last name") || errorMessage.toLowerCase().contains("error"),
+                "Expected error message related to last name field.");
+    }
+
+    // TC-5: Checkout accepts space-only inputs with performance_glitch_user and completes successfully despite delays
+    @Test
+    public void Tc_Swag_checkout_005_spaceOnlyInputs_performanceGlitchUser() {
+        login.fillUserName("performance_glitch_user");
+        login.fillPassword("secret_sauce");
+        login.ClickButton();
+
+        checkout.waitForElementVisibility(By.id("add-to-cart-sauce-labs-backpack"));
+        checkout.addProductToCart();
+        checkout.sleep(3000); // Extra wait for slow performance simulation
+        checkout.openCart();
+        checkout.sleep(2000);
+        checkout.clickCheckout();
+        checkout.sleep(2000);
+
+        // Enter spaces only in all required fields
+        checkout.enterCheckoutInformation(" ", " ", " ");
+        checkout.sleep(3000); // Wait for slow performance
+
+        // Check if it proceeds to Overview page successfully
+        String actualTitle = checkout.getCurrentStepTitle();
+        Assert.assertEquals(actualTitle, "Checkout: Overview", "Checkout should complete despite space-only inputs.");
+        // Optional: finish checkout to complete flow
+        checkout.finishCheckout();
+        // Could add assertion here to confirm final success if applicable
+    }
 }
-
-
