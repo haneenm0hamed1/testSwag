@@ -3,9 +3,9 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class CheckoutPage extends PageBase {
+public class checkoutpage extends PageBase {
 
-    public CheckoutPage(WebDriver driver) {
+    public checkoutpage(WebDriver driver) {
         super(driver);
     }
 
