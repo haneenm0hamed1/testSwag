@@ -34,4 +34,6 @@ public class LoginPage extends PageBase{
     }
 
 
+    public void login(String visualUser, String secretSauce) {
+    }
 }
