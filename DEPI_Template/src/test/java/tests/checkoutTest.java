@@ -113,4 +113,5 @@ public class checkoutTest extends TestBase {
         checkout.finishCheckout();
         // Could add assertion here to confirm final success if applicable
     }
+
 }
