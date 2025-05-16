@@ -113,5 +113,44 @@ public class checkoutTest extends TestBase {
         checkout.finishCheckout();
         // Could add assertion here to confirm final success if applicable
     }
+    // TC-
+    @Test
+    public void testStandardUserCheckoutSimple() {
+        login.fillUserName("standard_user");
+        login.fillPassword("secret_sauce");
+        login.ClickButton();
 
+        checkout.waitForElementVisibility(By.id("add-to-cart-sauce-labs-backpack"));
+        checkout.addProductToCart();
+        checkout.sleep(1000);
+        checkout.openCart();
+        checkout.sleep(1000);
+        checkout.clickCheckout();
+        checkout.sleep(1000);
+
+        checkout.enterCheckoutInformation("joo", "emad", "333");
+
+        String actualTitle = checkout.getCurrentStepTitle();
+        Assert.assertEquals(actualTitle, "Checkout: Overview", "User should proceed to the overview step.");
+    }
+    //tc-1
+    @Test
+    public void testErrorUserCheckoutSimple() {
+        login.fillUserName("error_user");
+        login.fillPassword("secret_sauce");
+        login.ClickButton();
+
+        checkout.waitForElementVisibility(By.id("add-to-cart-sauce-labs-backpack"));
+        checkout.addProductToCart();
+        checkout.sleep(1000);
+        checkout.openCart();
+        checkout.sleep(1000);
+        checkout.clickCheckout();
+        checkout.sleep(1000);
+
+        checkout.enterCheckoutInformation("youssef", "emad", "777");
+
+        String actualTitle = checkout.getCurrentStepTitle();
+        Assert.assertEquals(actualTitle, "Checkout: Overview", "User should proceed to the overview step.");
+    }
 }
