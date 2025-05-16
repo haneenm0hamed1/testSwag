@@ -17,7 +17,7 @@ public class TestBase {
 
      @AfterMethod
      public void closeBrowser(){
-         driver.close();
+         driver.quit();
      }
 
 
