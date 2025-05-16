@@ -22,11 +22,11 @@ public class CartTest extends TestBase {
         products = new HomePage(driver);
         cart = new CartPage(driver);
 
-<<<<<<< HEAD
+
         login.fillUserName("visual_user");
         login.fillPassword("secret_sauce");
         login.ClickButton();
-=======
+
         login.login("visual_user", "secret_sauce");
 
         driver = new ChromeDriver();
@@ -46,7 +46,6 @@ public class CartTest extends TestBase {
 
 
 
->>>>>>> c28986fc06a7f25242a02ef01b5bb783d929d2d4
     }
 
 

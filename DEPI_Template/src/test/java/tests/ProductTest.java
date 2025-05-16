@@ -1,5 +1,6 @@
 package tests;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -109,6 +110,27 @@ public class ProductTest extends TestBase{
 
         Set<String> uniqueImages = new HashSet<>(srcList);
         Assert.assertEquals(uniqueImages.size(), srcList.size(), "Some product images are duplicated.");
+    }
+    //TC_Swag_Product_7
+    @Test
+    public void InCorrectProductName() {
+        product.fillUserName("standard_user");
+        product.fillPassword("secret_sauce");
+        product.ClickButton();
+        String expectedResult = "Black Backpack";
+        String actualResult = driver.findElement(By.xpath("//*[@id=\"item_4_title_link\"]/div")).getText();
+        Assert.assertNotEquals(actualResult, expectedResult);
+
+    }
+    // TC_Swag_Product_9
+    @Test
+    public void GetProductDescription() {
+        product.fillUserName("error_user");
+        product.fillPassword("secret_sauce");
+        product.ClickButton();
+        String expectedResult = "Black Backpack for college";
+        String actualResult = driver.findElement(By.cssSelector("div[data-test=\"inventory-item-desc\"]")).getText();
+        Assert.assertNotEquals(actualResult, expectedResult);
     }
 
 }

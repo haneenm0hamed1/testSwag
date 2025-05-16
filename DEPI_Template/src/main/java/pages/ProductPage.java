@@ -19,7 +19,9 @@ public class ProductPage extends PageBase {
     By AddToCartButton = By.cssSelector(".inventory_item button");
     By CartPageCount = By.cssSelector("span[class='shopping_cart_badge']");
     By RemoveButton = By.name("remove-sauce-labs-backpack");
-
+    By userName = By.id("user-name");
+    By password = By.id("password");
+    By logInButton = By.id("login-button");
     public void clickAddToCart() {
         waitForElementToBeClickable(AddToCartButton);
         clickOnElement(AddToCartButton);
@@ -69,5 +71,18 @@ public class ProductPage extends PageBase {
         return driver.findElements(By.className("inventory_item_price"));
     }
 
+
+    public void fillUserName(String username){
+        fillElement(userName,username);
+        waitForElementVisibility(userName);
+    }
+
+    public void fillPassword(String password){
+        fillElement(this.password,password);
+    }
+
+    public void ClickButton(){
+        clickOnElement(logInButton);
+    }
 }
 
