@@ -111,9 +111,4 @@ public class LoginTest extends TestBase {
         System.out.println("testLoginWithAPreformanceGlitch: " + (isLoginSuccessful ? "PASSED" : "FAILED"));
     }
 
-
-
-
-
-
 }
