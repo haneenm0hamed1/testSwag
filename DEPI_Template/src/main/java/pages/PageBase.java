@@ -19,7 +19,7 @@ public class PageBase {
         this.driver =driver;
     }
 
-    public static Duration WAIT = Duration.ofSeconds(20);
+    public static Duration WAIT = Duration.ofSeconds(10L);
 
     public void waitForElementToBeClickable(By locator){
 
@@ -34,14 +34,14 @@ public class PageBase {
 
 
     public void fillElement(By locator,String value){
-        waitForElementVisibility(locator);
-        driver.findElement(locator).sendKeys(value);
+        this.waitForElementVisibility(locator);
+        this.driver.findElement(locator).sendKeys(value);
     }
 
     public void clickOnElement(By locator){
-        waitForElementVisibility(locator);
-        waitForElementToBeClickable(locator);
-        driver.findElement(locator).click();
+        this.waitForElementVisibility(locator);
+        this.waitForElementToBeClickable(locator);
+        this.driver.findElement(locator).click();
 
     }
 

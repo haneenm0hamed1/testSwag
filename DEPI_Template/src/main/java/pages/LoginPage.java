@@ -18,15 +18,15 @@ public class LoginPage extends PageBase{
 
 
     public void fillUserName(String username){
-        fillElement(userName,username);
+        this.fillElement(userName,username);
     }
 
     public void fillPassword(String password){
-        fillElement(this.password,password);
+        this.fillElement(this.password,password);
     }
 
     public void ClickButton(){
-        clickOnElement(loginButton);
+        this.clickOnElement(loginButton);
     }
 
     public String getErrorMessage(){
@@ -35,5 +35,9 @@ public class LoginPage extends PageBase{
 
 
     public void login(String visualUser, String secretSauce) {
+    }
+
+    public boolean isLoginSuccessful() {
+        return driver.findElements(By.className("inventory_list")).size() > 0;
     }
 }
