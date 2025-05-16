@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeMethod;
 public class TestBase {
 
      public static WebDriver driver;
+
      @BeforeMethod
      public void openBrowser(){
             driver = new ChromeDriver();
@@ -19,6 +20,5 @@ public class TestBase {
      public void closeBrowser(){
          driver.quit();
      }
-
 
 }

@@ -14,6 +14,8 @@ public class LoginPage extends PageBase{
     By userName = By.id("user-name");
     By password = By.id("password");
     By loginButton = By.id("login-button");
+    By errorMessage = By.cssSelector("[data-test='error']");
+
 
     public void fillUserName(String username){
         fillElement(userName,username);
@@ -27,10 +29,8 @@ public class LoginPage extends PageBase{
         clickOnElement(loginButton);
     }
 
-    public void login(String username, String password){
-        fillUserName(username);
-        fillPassword(password);
-        ClickButton();
+    public String getErrorMessage(){
+        return getText(driver,errorMessage);
     }
 
 
